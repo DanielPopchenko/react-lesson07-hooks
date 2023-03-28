@@ -1,0 +1,37 @@
+.container {
+    display: block;
+    max-width: 1470px;
+    padding: 0px 40px;
+}
+
+.option {
+    display: block;
+    width: 150px;
+    height: 150px;
+    border-radius: 3px;
+    border: none;
+    transition: all 0.3s;
+}
+
+.title {
+    font-size: 30px;
+    text-align: center;
+}
+
+.chosenColor {
+    font-size: 20px;
+    text-align: center;
+}
+
+.activeOption {
+    border-radius: 3px;
+    border: none;
+    width: 200px;
+    height: 200px;
+}
+
+.colorsRows {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
