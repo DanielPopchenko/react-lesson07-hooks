@@ -7,3 +7,11 @@
 # Если юзаешь хуки, забудь про ...didMount, ...didUpdate итд
 
 - useEffect в компоненте Counter выполняется при маунте компонента и при изменении двух переменных массива зависимостей
+
+--- ! вернется 1 потому, что 0 приводится к undefined
+console.log(0 ?? 1);
+--- ! вернется 5 потому, что undefined
+console.log(undefined ?? 5);
+--- ! вернется false потому, что false не undefined!
+console.log(false ?? true);
+--- ! Если слева не undefined, то вернет левую !
