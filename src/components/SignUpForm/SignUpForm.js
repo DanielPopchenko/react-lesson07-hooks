@@ -1,8 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+// ! вернется 1 потому, что 0 приводится к undefined
+console.log(0 ?? 1);
+// ! вернется 5 потому, что undefined
+console.log(undefined ?? 5);
+// ! вернется false потому, что false не undefined!
+console.log(false ?? true);
+
+// ! Если слева не undefined, то вернет левую !
 
 export default function SignUpForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(() => {
+    // ! Ленивая иннициализация состояния - для того, чтобы не вызывалась при каждом перерендере !
+    // Эта функция вызовется только при 1 рендере, а после будет игнорироваться интерпритатором
+    return JSON.parse(window.localStorage.getItem('email')) ?? '';
+  });
+  const [password, setPassword] = useState(() => {
+    return JSON.parse(window.localStorage.getItem('password')) ?? '';
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -19,6 +34,17 @@ export default function SignUpForm() {
     }
   };
 
+  // 2 разных куска стэйта, поэтому лучше заюзать 2 useEffect
+  useEffect(() => {
+    // ! window. - указывает что это именно страничный локал сторэдж
+    window.localStorage.setItem('email', JSON.stringify(email));
+  }, [email]);
+
+  useEffect(() => {
+    // ! window. - указывает что это именно страничный локал сторэдж
+    window.localStorage.setItem('password', JSON.stringify(password));
+  }, [password]);
+
   return (
     <form className="" autoComplete="false">
       <label>
@@ -28,7 +54,12 @@ export default function SignUpForm() {
 
       <label>
         <span>Password</span>
-        <input type="passwords" value={password} name="password" onChange={handleChange} />
+        <input
+          type="passwords"
+          value={password}
+          name="password"
+          onChange={handleChange}
+        />
       </label>
 
       <button type="submit">Register</button>

@@ -15,10 +15,21 @@ export default function Counter() {
     setCounterB((prevState) => prevState + 1);
   };
 
-  //   ! Запускается каждый раз при изменении пропсов или стейта
+  // ! ----- В useEffect нужно обязательно передавать анонимную функцию -----
+
+  //   ! Запускается каждый раз при изменении пропсов или стейта - значение по умолчанию
+  //   useEffect(() => {
+  //     console.log('UseEffect`s working');
+  //   });
+
+  //   ! [] - Указывают на то, что useEffect запустится только один раз при рендере елемента
+
+  //   ! [a, b] - будет работать только при изменении этих двух параметров массива зависимостей
   useEffect(() => {
-    console.log('UseEffect`s working');
-  });
+    console.log('UseEffect`s working', Date.now());
+    const totalClicks = counterA + counterB;
+    document.title = `Total clicks: ${totalClicks}`;
+  }, [counterB, counterA]);
 
   return (
     <div>
