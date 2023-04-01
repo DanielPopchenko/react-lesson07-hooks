@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PokemonForm from './components/PokemonForm';
-import './base.css';
-import PokemonInfo from './components/PokemonInfo';
+import PokemonForm from './components/Pokemons/PokemonForm';
+// import './base.css';
+import PokemonInfo from './components/Pokemons/PokemonInfo';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
