@@ -1,50 +1,56 @@
-import React, { Component } from "react";
-import PokemonErrorView from "./PokemonErrorView";
-import PokemonDataView from "./PokemonDataView";
-import PokemonPendingView from "./PokemonPendingView";
-import pokemonAPI from "../services/pokemon-api";
+import { useState, useEffect } from 'react';
+import PokemonErrorView from './PokemonErrorView';
+import PokemonDataView from './PokemonDataView';
+import PokemonPendingView from './PokemonPendingView';
+import pokemonAPI from '../services/pokemon-api';
 
-// Имеем доступ к имени покемона
-// {this.props.pokemonName}
+const Status = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  RESOLVED: 'resolved',
+  REJECTED: 'rejected',
+};
 
-export default class PokemonInfo extends Component {
-  state = {
-    pokemon: null,
-    error: null,
-    status: "idle",
-  };
+export default function PokemonInfo({ pokemonName }) {
+  const [pokemon, setPokemon] = useState(null);
+  const [error, setError] = useState(null);
+  const [status, setStatus] = useState(Status.IDLE);
 
-  // ! Компонент обновляется когда обновляется пропсы или стэйт
-  componentDidUpdate = (prevProps, prevState) => {
-    const prevName = prevProps.pokemonName;
-    const nextName = this.props.pokemonName;
-
-    // ! Обязательная проверка, чтобы не зациклить компонент
-    if (prevName !== nextName) {
-      this.setState({ status: "pending" });
-
-      pokemonAPI
-        .fetchPokemon(nextName)
-        .then((pokemon) => this.setState({ pokemon, status: "resolved" }))
-        .catch((error) => this.setState({ error, status: "rejected" }));
+  // ! Заменили ComponentDidUpdate на это
+  useEffect(() => {
+    // ! Изначально pokemonName - пустая строка
+    // ! у нас делается объект покемона по пустой строке, поэтому ничего не рабоатет
+    // ! Тут мы говорим что елси pokemonName - пустая строка, то ничего не делаем !!
+    if (!pokemonName) {
+      // console.log('pokemonName пустая строка, не делаем fetch');
+      return;
     }
-  };
 
-  render() {
-    const { pokemon, error, status } = this.state;
-    const { pokemonName } = this.props;
+    setStatus(Status.PENDING);
 
-    if (status === "idle") {
-      return <div>Enter pokemon name!</div>;
-    }
-    if (status === "pending") {
-      return <PokemonPendingView pokemonName={pokemonName} />;
-    }
-    if (status === "rejected") {
-      return <PokemonErrorView message={error.message} />;
-    }
-    if (status === "resolved") {
-      return <PokemonDataView pokemon={pokemon} />;
-    }
+    pokemonAPI
+      .fetchPokemon(pokemonName)
+      .then((pokemon) => {
+        setPokemon(pokemon);
+        setStatus(Status.RESOLVED);
+      })
+      .catch((error) => {
+        setError(error);
+        setStatus(Status.REJECTED);
+      });
+    // ! в объекте зависимостей именно pokemonName потому что это динамическое значение (пропс), оно изменяется!!!
+  }, [pokemonName]);
+
+  if (status === Status.IDLE) {
+    return <div>Enter pokemon name!</div>;
+  }
+  if (status === Status.PENDING) {
+    return <PokemonPendingView pokemonName={pokemonName} />;
+  }
+  if (status === Status.REJECTED) {
+    return <PokemonErrorView message={error.message} />;
+  }
+  if (status === Status.RESOLVED) {
+    return <PokemonDataView pokemon={pokemon} />;
   }
 }

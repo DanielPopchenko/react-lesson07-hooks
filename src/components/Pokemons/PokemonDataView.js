@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
 export default function PokemonDataView({ pokemon: { sprites, name, stats } }) {
   return (
     <div>
       <img
-        src={sprites.other["official-artwork"].front_default}
+        src={sprites.other['official-artwork'].front_default}
         width={240}
         height={120}
         alt={name}

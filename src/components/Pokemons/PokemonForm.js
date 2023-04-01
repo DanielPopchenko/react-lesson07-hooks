@@ -1,44 +1,44 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 
-export default class PokemonForm extends Component {
-  state = {
-    // ! Храним имя когда печатаем
-    pokemonName: '',
+export default function PokemonForm({ onSubmit }) {
+  const [pokemonName, setPokemonName] = useState('');
+
+  const handleNameChange = (e) => {
+    setPokemonName(e.currentTarget.value.toLowerCase());
   };
 
-  handleNameChange = (e) => {
-    this.setState({ pokemonName: e.currentTarget.value.toLowerCase() });
-  };
-
-  handleFormSubmit = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    if (this.state.pokemonName.trim() === '') {
+    if (pokemonName.trim() === '') {
       toast.error('Enter pokemon name');
 
       // ! Выходим из функции
       return;
     }
     // ! Вытягиваем значение формы (имя) из локального стейта и отправляем App
-    this.props.onSubmit(this.state.pokemonName);
+    onSubmit(pokemonName);
 
-    this.setState({ pokemonName: '' });
+    setPokemonName('');
   };
 
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.handleFormSubmit}>
-          <input type="text" name="PokemonName" value={this.state.pokemonName} onChange={this.handleNameChange} />
-          <button type="submit">
-            <AiOutlineGoogle style={{ marginRight: 8 }} />
-            Find
-          </button>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <form onSubmit={handleFormSubmit}>
+        <input
+          type="text"
+          name="PokemonName"
+          value={pokemonName}
+          onChange={handleNameChange}
+        />
+        <button type="submit">
+          <AiOutlineGoogle style={{ marginRight: 8 }} />
+          Find
+        </button>
+      </form>
+    </div>
+  );
 }
