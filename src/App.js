@@ -2,8 +2,7 @@
 // import ColorPicker from './components/ColorPicker/ColorPicker';
 // import Counter from './components/Counter/Counter';
 // import Clock from './components/Clock/Clock';
-
-import Practice from './components/Practice/Practice';
+import SkippEffectOnFirstRender from './components/Counter/SkippEffectOnFirstRender';
 
 // const colorPickerOptions = [
 //   { label: 'red', color: '#c41d1d' },
@@ -20,7 +19,9 @@ function App() {
       <ColorPicker options={colorPickerOptions} />
       <Counter />
       <Clock /> */}
-      <Practice />
+      {/* <TodosPostsPractice />*/}
+      {/* <UseRef /> */}
+      <SkippEffectOnFirstRender />
     </div>
   );
 }
