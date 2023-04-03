@@ -12,6 +12,8 @@ const Status = {
 };
 
 export default function PokemonInfo({ pokemonName }) {
+  //  ! Можно использовать useReducer, чтобы не делать несколько useState, но в этой ситуации лучше делать useState-ом
+
   const [pokemon, setPokemon] = useState(null);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState(Status.IDLE);
@@ -31,8 +33,15 @@ export default function PokemonInfo({ pokemonName }) {
     pokemonAPI
       .fetchPokemon(pokemonName)
       .then((pokemon) => {
+        // ! Порядок операций важен в ассинхронных операциях, если мы сначала засэтим статус в резолвед,
+        // !  у нас все упадет потому, что компонент перерисуется, а покемона то нету
+        // ✅
         setPokemon(pokemon);
         setStatus(Status.RESOLVED);
+
+        // ❌
+        // setStatus(Status.RESOLVED);
+        // setPokemon(pokemon);
       })
       .catch((error) => {
         setError(error);

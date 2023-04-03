@@ -37,3 +37,8 @@
 .button+.button {
     margin-left: 10px;
 }
+
+.count {
+    font-size: 25px;
+    margin-left: 120px;
+}

@@ -1,8 +1,10 @@
 // import SignUpForm from './components/SignUpForm/SignUpForm';
 // import ColorPicker from './components/ColorPicker/ColorPicker';
 // import Counter from './components/Counter/Counter';
+import CounterUseReducer from './components/Counter/CounterUseReducer';
+import Friends from './components/Friends/Friends';
 // import Clock from './components/Clock/Clock';
-import SkippEffectOnFirstRender from './components/Counter/SkippEffectOnFirstRender';
+// import SkippEffectOnFirstRender from './components/Counter/SkippEffectOnFirstRender';
 
 // const colorPickerOptions = [
 //   { label: 'red', color: '#c41d1d' },
@@ -16,12 +18,13 @@ function App() {
   return (
     <div className="App">
       {/* <SignUpForm />
-      <ColorPicker options={colorPickerOptions} />
-      <Counter />
-      <Clock /> */}
+      <ColorPicker options={colorPickerOptions} /> */}
+      {/* <CounterUseReducer /> */}
+      <Friends />
+      {/* <Clock />  */}
       {/* <TodosPostsPractice />*/}
       {/* <UseRef /> */}
-      <SkippEffectOnFirstRender />
+      {/* <SkippEffectOnFirstRender /> */}
     </div>
   );
 }
